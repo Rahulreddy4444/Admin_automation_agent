@@ -45,15 +45,15 @@ flowchart TD
     end
 
     subgraph Human-In-The-Loop Approval Gate
-        DRAFT_GEN[Draft Generator\nEmail / WhatsApp]
-        PREVIEW[Interactive CLI Preview]
-        APPROVE{Coordinator Decision?\n(Y / N)}
+        DRAFT_GEN["Draft Generator<br/>Email / WhatsApp"]
+        PREVIEW["Interactive CLI Preview"]
+        APPROVE{"Coordinator Decision?<br/>(Y / N)"}
     end
 
     subgraph Output Channels
-        SMTP[Direct SMTP Email\nGmail App Password]
-        TWILIO[Twilio API\nWhatsApp Messaging]
-        REPORTS[Daily Summary Reports]
+        SMTP["Direct SMTP Email<br/>Gmail App Password"]
+        TWILIO["Twilio API<br/>WhatsApp Messaging"]
+        REPORTS["Daily Summary Reports"]
     end
 
     EXCEL_CANDIDATES --> TOOLS
@@ -232,7 +232,7 @@ Run the safety and mathematical integrity verification suite:
 
 ---
 
-## 🔬 Evaluation & Validation Metrics
+##  Evaluation & Validation Metrics
 
 The project includes an built-in evaluation framework verifying critical system constraints:
 
