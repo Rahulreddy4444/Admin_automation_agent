@@ -14,10 +14,6 @@ import streamlit as st
 import pandas as pd
 from backend.app.config import settings
 from backend.app.services.data_service import data_service
-from backend.app.rag.knowledge_base import ensure_knowledge_base_seeded
-from backend.app.tools.progress_tools import get_teaching_progress, get_current_topic, get_next_topic
-from backend.app.tools.attendance_tools import load_attendance_log, calculate_session_attendance
-from backend.app.tools.communication_tools import load_comm_log
 
 # Page configuration
 st.set_page_config(
@@ -80,12 +76,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Startup bootstrap
-try:
-    ensure_knowledge_base_seeded()
-except Exception as e:
-    pass
-
 # Session State for Authentication
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
@@ -145,6 +135,10 @@ def login_form():
 if not st.session_state.authenticated:
     login_form()
 else:
+    # Lazy load tools only after coordinator authenticates
+    from backend.app.tools.progress_tools import get_teaching_progress, get_current_topic
+    from backend.app.tools.communication_tools import load_comm_log
+
     # Sidebar Profile & Navigation Info
     with st.sidebar:
         st.markdown(f"### 👤 {st.session_state.user['name']}")
@@ -181,7 +175,7 @@ else:
 
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        st.metric("Total Candidates", len(candidates_df), help="Active roster in batch b1")
+        st.metric("Total Candidates", len(candidates_df), help="Active roster")
     with c2:
         st.metric("Active Batches", len(batches_df), help="Current training batches")
     with c3:
@@ -202,7 +196,7 @@ else:
             data_service.get_session_details(curr_topic["session_number"]) if (curr_topic and progress["total_planned"] > 0) else None
         )
         
-        if display_session:
+        if display_session and progress["total_planned"] > 0:
             st.markdown(f"""
             <div class="glass-card">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -217,7 +211,7 @@ else:
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.info("No session scheduled for today.")
+            st.info("No teaching plan loaded or no session scheduled for today.")
 
     with col_right:
         st.subheader("⚡ Quick Navigation")
