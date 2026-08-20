@@ -1,0 +1,52 @@
+# Environment Variables & Secrets
+.env
+*.env
+!.env.example
+*.pem
+*.key
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Local Vector Database & Indexes
+data/chroma_db/
+chroma_db/
+*.sqlite3
+*.db
+
+# Streamlit temporary files
+.streamlit/secrets.toml
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Temporary Files
+*.log
+scratch/
+tmp/
+temp/
